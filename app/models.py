@@ -9,7 +9,7 @@ class Url(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     uri = db.Column(db.Text)
-    comments = relationship("Comment")
+    comments = relationship('Comment', backref='url')
 
     def __init__(self, uri):
         self.uri = uri
@@ -20,6 +20,7 @@ class Comment(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     url_id = db.Column(db.Integer, db.ForeignKey('urls.id'))
+
     comment = db.Column(db.Text)
 
     def __init__(self, url_id, comment):

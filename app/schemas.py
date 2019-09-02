@@ -6,20 +6,23 @@ Asists in serialization and pretty printing objects
 '''
 
 from app import ma
+from marshmallow import fields
 from .models import Url, Comment
 
 # URL Marshmallow Schema
-class UrlSchema(ma.ModelSchema):
+class UrlSchema(ma.Schema):
+    comments = fields.Nested('CommentSchema', many=True, only=['id','comment'])
     class Meta:
-        model = Url
+        fields = ('id', 'uri', 'comments')
 
 # Comment Marshmallow Schema
-class CommentSchema(ma.ModelSchema):
+class CommentSchema(ma.Schema):
+    url = fields.Nested('UrlSchema', only=['id', 'uri'])
     class Meta:
-        model = Comment
+        fields = ('id', 'url', 'comment')
 
 # Init Schemas
-url_schema = UrlSchema(only=['id', 'uri'])
-urls_schema = UrlSchema(many=True, only=['id', 'uri'])
+url_schema = UrlSchema()
+urls_schema = UrlSchema(many=True)
 comment_schema = CommentSchema()
 comments_schema = CommentSchema(many=True)

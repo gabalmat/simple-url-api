@@ -7,7 +7,7 @@ from app import app, db
 from .models import Url, Comment
 from .schemas import url_schema, urls_schema, comment_schema, comments_schema
 
-# Add a URL
+# Create a URL
 @app.route('/api/addurl', methods=['POST'])
 def add_url():
     uri = request.json['uri']
@@ -25,7 +25,7 @@ def add_url():
 
         return jsonify({
             'status': 'error',
-            'message': 'Record was not added due to database exception'
+            'message': 'URL was not added due to database exception'
         })
 
 # Get all URLs
@@ -36,3 +36,45 @@ def get_urls():
 
     return jsonify(url_dict)
 
+# Get a single URL by id
+@app.route('/api/url/<id>', methods=['GET'])
+def get_url(id):
+    url = Url.query.get(id)
+
+    if url is not None:
+        return url_schema.jsonify(url)
+    else:
+        return jsonify({
+            'status': 'error',
+            'message': f'URL with id: {id} not found'
+        })
+
+# Create a Comment for a given URL
+@app.route('/api/addcomment', methods=['POST'])
+def add_comment():
+    url_id = request.json['url_id']
+    comment = request.json['comment']
+
+    # Make sure url record exists first
+    url = Url.query.get(url_id)
+    if url is None:
+        return jsonify({
+            'status': 'error',
+            'message': f'URL with id: {url_id} not found'
+        })
+
+    new_comment = Comment(url_id, comment)
+    db.session.add(new_comment)
+
+    try:
+
+        db.session.commit()
+        db.session.refresh(new_comment)
+        return comment_schema.jsonify(new_comment)
+
+    except exc.SQLAlchemyError:
+
+        return jsonify({
+            'status': 'error',
+            'message': 'Comment was not added due to database exception'
+        })
