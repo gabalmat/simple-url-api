@@ -7,7 +7,12 @@ from app import app, db
 from .models import Url, Comment
 from .schemas import url_schema, urls_schema, comment_schema, comments_schema
 
-# Create a URL
+'''
+Create new URL record
+:param uri:  URL to be saved
+
+:return:     Newly added URL and it's properties
+'''
 @app.route('/api/addurl', methods=['POST'])
 def add_url():
     uri = request.json['uri']
@@ -16,19 +21,21 @@ def add_url():
     db.session.add(new_url)
 
     try:
-
         db.session.commit()
         db.session.refresh(new_url)
+
         return url_schema.jsonify(new_url)
-
     except exc.SQLAlchemyError:
-
         return jsonify({
             'status': 'error',
             'message': 'URL was not added due to database exception'
         })
 
-# Get all URLs
+'''
+Get all URLs and their properties
+
+:return:  list of URLs and their properties
+'''
 @app.route('/api/urls/', methods=['GET'])
 def get_urls():
     all_urls = Url.query.all()
@@ -36,7 +43,12 @@ def get_urls():
 
     return jsonify(url_dict)
 
-# Get a single URL by id
+'''
+Get a single URL
+:param url_id:  ID of URL to find
+
+:return         URL matching ID
+'''
 @app.route('/api/url/<id>', methods=['GET'])
 def get_url(id):
     url = Url.query.get(id)
@@ -49,7 +61,13 @@ def get_url(id):
             'message': f'URL with id: {id} not found'
         })
 
-# Create a Comment for a given URL
+'''
+Create a new Comment for the given URL
+:param url_id:   ID of the URL to add Comment to
+:param comment:  Comment to add
+
+:return:          Newly added Comment and it's properties
+'''
 @app.route('/api/addcomment', methods=['POST'])
 def add_comment():
     url_id = request.json['url_id']
@@ -67,13 +85,10 @@ def add_comment():
     db.session.add(new_comment)
 
     try:
-
         db.session.commit()
         db.session.refresh(new_comment)
         return comment_schema.jsonify(new_comment)
-
     except exc.SQLAlchemyError:
-
         return jsonify({
             'status': 'error',
             'message': 'Comment was not added due to database exception'
