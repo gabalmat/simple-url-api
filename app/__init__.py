@@ -21,9 +21,6 @@ def create_app(config_name):
     db.init_app(app)
     migrate = Migrate(app, db)
 
-    # load the views
-    from app import views
-
     # load the models
     from app import models
 
