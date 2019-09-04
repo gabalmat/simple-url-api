@@ -27,7 +27,6 @@ Load the correct configuration based on input
 '''
 def create_app(config_name):
     app.config.from_object(app_config[config_name])
-    app.config.from_pyfile('config.py')
 
     db.init_app(app)
     ma.init_app(app)

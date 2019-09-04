@@ -15,7 +15,7 @@ from .schemas import url_schema, urls_schema, comment_schema, comments_schema
 '''
 Create new URL record. Also create a new Comment record if one is provided
 :param uri:  URL to be saved
-:param (optional) comment: Comment to be saved along with URL
+:param (optional) comment: Comment to be saved when URL gets saved
 
 :return:     Newly added URL object
 '''
