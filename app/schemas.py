@@ -2,7 +2,7 @@
 
 '''
 Marshmallow Schemas for each model
-Asists in serialization and pretty printing objects
+Asists in serialization and pretty printing of objects
 '''
 
 from app import ma

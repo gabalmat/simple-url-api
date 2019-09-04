@@ -5,19 +5,26 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 # local imports
 from config import app_config
 
-# db variable initialization
+# DB variable initialization
 db = SQLAlchemy()
 # Marshmallow variable initialization
 ma = Marshmallow()
 
 # Initialize Flask app
 app = Flask(__name__, instance_relative_config=True)
+CORS(app)
 
-# function that takes a configuration name and loads the correct configuration
+'''
+Load the correct configuration based on input
+:param config_name: configuration name specifed in FLASK_APP env variable
+
+:return: the Flask app object
+'''
 def create_app(config_name):
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')

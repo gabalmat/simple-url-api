@@ -1,5 +1,10 @@
 # app/api.py
 
+'''
+This module specifies routes and handles 
+requests for all REST API endpoints
+'''
+
 from flask import jsonify, request
 from sqlalchemy import exc
 
@@ -8,16 +13,24 @@ from .models import Url, Comment
 from .schemas import url_schema, urls_schema, comment_schema, comments_schema
 
 '''
-Create new URL record
+Create new URL record. Also create a new Comment record if one is provided
 :param uri:  URL to be saved
+:param (optional) comment: Comment to be saved along with URL
 
-:return:     Newly added URL and it's properties
+:return:     Newly added URL object
 '''
 @app.route('/api/addurl', methods=['POST'])
 def add_url():
     uri = request.json['uri']
+    comment = request.json.get('comment')
 
-    new_url = Url(uri)
+    if comment:
+        new_comment = Comment(comment=comment)
+        new_url = Url(uri=uri, comments=[new_comment])
+        db.session.add(new_comment)
+    else:
+        new_url = Url(uri=uri)
+    
     db.session.add(new_url)
 
     try:
@@ -34,7 +47,7 @@ def add_url():
 '''
 Get all URLs and their properties
 
-:return:  list of URLs and their properties
+:return:  list of URLs objects
 '''
 @app.route('/api/urls/', methods=['GET'])
 def get_urls():
@@ -47,7 +60,7 @@ def get_urls():
 Get a single URL
 :param url_id:  ID of URL to find
 
-:return         URL matching ID
+:return         URL object matching ID
 '''
 @app.route('/api/url/<id>', methods=['GET'])
 def get_url(id):
@@ -63,17 +76,17 @@ def get_url(id):
 
 '''
 Create a new Comment for the given URL
-:param url_id:   ID of the URL to add Comment to
+:param url_id:   Integer ID of the URL to add Comment to
 :param comment:  Comment to add
 
-:return:          Newly added Comment and it's properties
+:return:          Newly added Comment object
 '''
 @app.route('/api/addcomment', methods=['POST'])
 def add_comment():
     url_id = request.json['url_id']
     comment = request.json['comment']
 
-    # Make sure url record exists first
+    # Get the URL object
     url = Url.query.get(url_id)
     if url is None:
         return jsonify({
@@ -81,7 +94,7 @@ def add_comment():
             'message': f'URL with id: {url_id} not found'
         })
 
-    new_comment = Comment(url_id, comment)
+    new_comment = Comment(url=url, comment=comment)
     db.session.add(new_comment)
 
     try:
