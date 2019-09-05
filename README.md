@@ -9,7 +9,7 @@ The database consists of 2 tables: *urls* and *comments* .  They have a one-to-m
 The API is written in Python using the Flask framework.
 
 ### Usage
-API endpoints can be tested using an application such as Postman or by running the Simple URL APP React frontend application locally. (See the [Simple URL APP repo](https://github.com/gabalmat/simple-url-app) for details.)
+API endpoints can be tested using an application such as Postman or by running the Simple URL APP React frontend application locally. (See [Simple URL APP](https://github.com/gabalmat/simple-url-app) for details.)
 
 ### RESTful API:
 Available endpoints and their descriptions:
