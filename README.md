@@ -36,3 +36,42 @@ Available endpoints and their descriptions:
     {"url_id": 1, "Another generic comment"}
     ```
 
+### Run Locally
+To run this API locally follow the steps below and please pay close attention to the assumptions:
+
+Assumptions:
+ - This repo has been cloned locally
+ - PostgreSQL DB running locally
+ - python3, pip3, and virtualenv installed locally
+ - cwd is the top-level `simple-url-api` directory
+ 
+Create a virtualenv and activate it:
+```
+python3 -m <name_of_env>
+. venv/bin/activate
+```
+
+Install Dependencies:
+```
+pip3 install -r requirements.txt
+```
+
+Set environment variables (replace values in <> with desired configuration):
+```
+export FLASK_APP=application.py
+export FLASK_CONFIG=development
+export POSTGRES_USER=<username>
+export POSTGRES_PASSWORD=<password>
+export DB_SERVER=<db servername or localhost>
+export DB_PORT=<db port or 5432>
+export DB_NAME=<desired db name>
+```
+
+Run:
+```
+flask run
+```
+
+The API should be running on http://localhost:5000
+
+
