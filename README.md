@@ -29,7 +29,7 @@ Available endpoints and their descriptions:
     ```
     {"uri": "https://www.google.com/", "comment": "Some generic comment"}
 	```
-	Note: the *comment* parameter is optional 
+	*Note: the *comment* parameter is optional 
   - '/api/addcomment'
     ```
     {"url_id": 1, "Another generic comment"}
