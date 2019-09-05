@@ -25,11 +25,12 @@ Available endpoints and their descriptions:
 - POST requests should have the *Content-Type* header set to *application/json* and the request data should be in json format.
 
     For example: 
-  - '/api/addurl'
+  - '/api/addurl' (*Note: the *comment* parameter is optional)
     ```
     {"uri": "https://www.google.com/", "comment": "Some generic comment"}
 	```
-	*Note: the *comment* parameter is optional 
+	
+	
   - '/api/addcomment'
     ```
     {"url_id": 1, "Another generic comment"}
