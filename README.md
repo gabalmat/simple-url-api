@@ -37,7 +37,7 @@ Available endpoints and their descriptions:
     ```
 
 ### Run Locally
-To run this API locally follow the steps below and please pay close attention to the assumptions:
+If you prefer to run this API locally, follow the steps below and please pay close attention to the assumptions:
 
 Assumptions:
  - This repo has been cloned locally
