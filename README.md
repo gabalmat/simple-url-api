@@ -26,10 +26,12 @@ Available endpoints and their descriptions:
 
     For example: 
   - '/api/addurl'
-    ```{"uri": "https://www.google.com/", "comment": "Some generic comment"}
+    ```
+    {"uri": "https://www.google.com/", "comment": "Some generic comment"}
 	```
 	Note: the *comment* parameter is optional 
   - '/api/addcomment'
-    ```{"url_id": 1, "Another generic comment"}
+    ```
+    {"url_id": 1, "Another generic comment"}
     ```
 
